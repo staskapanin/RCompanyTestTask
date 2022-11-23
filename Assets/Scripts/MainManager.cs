@@ -40,6 +40,10 @@ public class MainManager : MonoBehaviour
 
     public async Task ShowOneByOne()
     {
-        Debug.Log("OneByOne");
+        for (int i = 0; i < cardsCount; i++)
+        {
+            byte[] bytes = await _imageDownloader.DownloadRandomImageAsync();
+            cardsPresenter.ShowCard(i, bytes);
+        }
     }
 }
