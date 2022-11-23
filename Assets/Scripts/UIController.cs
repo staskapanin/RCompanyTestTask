@@ -5,21 +5,37 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] MainManager _mainManager;
-    [SerializeField] Button _button;
+    [SerializeField] MainManager mainManager;
+    [SerializeField] Button allAtOnceButton;
+    [SerializeField] Button oneByOneButton;
+    [SerializeField] Button whenReadyButton;
 
     private void Start()
     {
-        _button.onClick.AddListener(OnDownloadButtonPressed);
+        allAtOnceButton.onClick.AddListener(OnAllAtOnceButoonPresed);
+        oneByOneButton.onClick.AddListener(OnOneByOneButtonPressed);
+        whenReadyButton.onClick.AddListener(OnWhenReadyButtonPressed);
     }
 
     private void OnDestroy()
     {
-        _button.onClick.RemoveListener(OnDownloadButtonPressed);
+        allAtOnceButton.onClick.RemoveListener(OnAllAtOnceButoonPresed);
+        oneByOneButton.onClick.RemoveListener(OnOneByOneButtonPressed);
+        whenReadyButton.onClick.RemoveListener(OnWhenReadyButtonPressed);
     }
-    public void OnDownloadButtonPressed()
+    
+    private void OnAllAtOnceButoonPresed()
     {
-        Debug.Log("ButtonPressed");
-        _mainManager.ShowCard();
+        mainManager.ShowAllAtOnce();
+    }
+
+    private void OnWhenReadyButtonPressed()
+    {
+        mainManager.ShowWhenReady();
+    }
+
+    private void OnOneByOneButtonPressed()
+    {
+        mainManager.ShowOneByOne();
     }
 }

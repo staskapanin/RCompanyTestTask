@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MainManager : MonoBehaviour
@@ -12,10 +13,25 @@ public class MainManager : MonoBehaviour
         _imageDownloader = new ImageDownloader();
     }
 
-    public async void ShowCard()
+    public async Task ShowCard()
     {
         var bytes = await _imageDownloader.DownloadImageClient();
         
         cardsPresenter.ShowCard(bytes);
+    }
+
+    public async Task ShowAllAtOnce()
+    {
+        Debug.Log("AllAtOnce");
+    }
+
+    public async Task ShowWhenReady()
+    {
+        Debug.Log("WhenReady");
+    }
+
+    public async Task ShowOneByOne()
+    {
+        Debug.Log("OneByOne");
     }
 }
