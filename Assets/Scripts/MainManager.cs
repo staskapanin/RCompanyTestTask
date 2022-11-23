@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class MainManager : MonoBehaviour
 {
+    [SerializeField][Range(4, 6)] int cardsCount;
+
     [SerializeField] CardsPresenter cardsPresenter;
+    
     private ImageDownloader _imageDownloader;
 
     private void Awake()
@@ -13,16 +16,21 @@ public class MainManager : MonoBehaviour
         _imageDownloader = new ImageDownloader();
     }
 
-    public async Task ShowCard()
+    private void Start()
     {
-        var bytes = await _imageDownloader.DownloadImageClient();
-        
-        cardsPresenter.ShowCard(bytes);
+        cardsPresenter.InitializePresenter(cardsCount);
     }
 
     public async Task ShowAllAtOnce()
     {
-        Debug.Log("AllAtOnce");
+        Sprite[] sprites = new Sprite[cardsCount];
+        byte[][] bytesPerCard = new byte[cardsCount][];
+
+        for (int i = 0; i < sprites.Length; i++)
+            bytesPerCard[i] = await _imageDownloader.DownloadRandomImageAsync();
+
+        for (int i = 0; i < sprites.Length; i++)
+            cardsPresenter.ShowCard(i, bytesPerCard[i]);
     }
 
     public async Task ShowWhenReady()

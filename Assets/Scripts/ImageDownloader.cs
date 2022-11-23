@@ -11,19 +11,20 @@ using System.Net.Http.Headers;
 
 public class ImageDownloader
 {
+    const string RandomImageDownloadUri = "https://picsum.photos/200/300";
     HttpClient client = new HttpClient();
     public ImageDownloader()
     {
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyBestApp" , "0.1"));
     }
 
-    public async Task<byte[]> DownloadImageClient()
+    public async Task<byte[]> DownloadRandomImageAsync()
     {
         var imageBytes = new byte[0];
 
         try
         {
-            using HttpResponseMessage res = await client.GetAsync("https://picsum.photos/200/300");
+            using HttpResponseMessage res = await client.GetAsync(RandomImageDownloadUri);
 
             imageBytes = await res.Content.ReadAsByteArrayAsync();
         }
