@@ -371,8 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9993f922f9b8a04f92631b5bb8dd30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardGap: 1
-  cardWidth: 2
   cardPrefab: {fileID: 6388416506825182057, guid: 81fcd97b91f96bf4eb9014ece958a954, type: 3}
 --- !u!4 &710315087
 Transform:
