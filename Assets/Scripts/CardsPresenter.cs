@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardsPresenter : MonoBehaviour
 {
-    const float CellWidth = 3f;
+    const float CellWidth = 2.8f;
 
     [SerializeField] CardScript cardPrefab;
 
