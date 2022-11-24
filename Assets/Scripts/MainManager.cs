@@ -38,6 +38,7 @@ public class MainManager : MonoBehaviour
 
     public async Task ShowAllAtOnce()
     {
+        cardsPresenter.PlayDownloadAnimationAll();
         List<Task<(int, byte[])>> tasks = new List<Task<(int, byte[])>>();
 
         for (int i = 0; i < cardsCount; i++)
@@ -59,6 +60,8 @@ public class MainManager : MonoBehaviour
 
     public async Task ShowWhenReady()
     {
+        cardsPresenter.PlayDownloadAnimationAll();
+
         for (int i = 0; i < cardsCount; i++)
         {
             int index = i;
@@ -75,6 +78,8 @@ public class MainManager : MonoBehaviour
 
     public async Task ShowOneByOne()
     {
+        cardsPresenter.PlayDownloadAnimationAll();
+
         for (int i = 0; i < cardsCount; i++)
         {
             byte[] bytes = await _imageDownloader.DownloadRandomImageAsync();

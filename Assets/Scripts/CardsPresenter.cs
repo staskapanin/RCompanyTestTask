@@ -23,6 +23,12 @@ public class CardsPresenter : MonoBehaviour
         _cards[index].Show(sprite);
     }
 
+    public void PlayDownloadAnimationAll()
+    {
+        foreach (var card in _cards)
+            card.PlayDownloadAnimation();
+    }
+
     private void GenerateCards()
     {
         _cards = new CardScript[_cardsCount];
