@@ -23,6 +23,20 @@ public class UIController : MonoBehaviour
         oneByOneButton.onClick.RemoveListener(OnOneByOneButtonPressed);
         whenReadyButton.onClick.RemoveListener(OnWhenReadyButtonPressed);
     }
+
+    public void EnableButtons()
+    {
+        allAtOnceButton.interactable = true;
+        oneByOneButton.interactable = true;
+        whenReadyButton.interactable = true;
+    }
+
+    public void DisableButtons()
+    {
+        allAtOnceButton.interactable = false;
+        oneByOneButton.interactable = false;
+        whenReadyButton.interactable = false;
+    }
     
     private void OnAllAtOnceButoonPresed()
     {

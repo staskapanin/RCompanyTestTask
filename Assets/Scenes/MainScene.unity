@@ -1165,6 +1165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsCount: 5
   cardsPresenter: {fileID: 710315086}
+  uiController: {fileID: 1557654761}
 --- !u!1 &1695696245
 GameObject:
   m_ObjectHideFlags: 0
