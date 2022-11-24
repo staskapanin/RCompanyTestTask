@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ public class MainManager : MonoBehaviour
     [SerializeField] CardsPresenter cardsPresenter;
     
     private ImageDownloader _imageDownloader;
+    private Queue<(int, byte[])> cardsDrawQueue = new Queue<(int, byte[])>();
+    object locker = new object();
 
     private void Awake()
     {
@@ -21,21 +24,53 @@ public class MainManager : MonoBehaviour
         cardsPresenter.InitializePresenter(cardsCount);
     }
 
+    private void Update()
+    {
+        lock (locker)
+        {
+            while (cardsDrawQueue.Count > 0)
+            {
+                (int,byte[]) t = cardsDrawQueue.Dequeue();
+                cardsPresenter.ShowCard(t.Item1, t.Item2);
+            } 
+        }
+    }
+
     public async Task ShowAllAtOnce()
     {
-        Sprite[] sprites = new Sprite[cardsCount];
-        byte[][] bytesPerCard = new byte[cardsCount][];
+        List<Task<(int, byte[])>> tasks = new List<Task<(int, byte[])>>();
 
-        for (int i = 0; i < sprites.Length; i++)
-            bytesPerCard[i] = await _imageDownloader.DownloadRandomImageAsync();
+        for (int i = 0; i < cardsCount; i++)
+        {
+            int index = i;
+            tasks.Add(Task.Run<(int, byte[])>(async () =>
+            {
+                byte[] bs = await _imageDownloader.DownloadRandomImageAsync();
+                return (index, bs);
+            }));
+        }
 
-        for (int i = 0; i < sprites.Length; i++)
-            cardsPresenter.ShowCard(i, bytesPerCard[i]);
+        Task<(int, byte[])[]> tAll = Task.WhenAll(tasks);
+        var results = await tAll;
+
+        foreach(var r in results)
+            cardsPresenter.ShowCard(r.Item1, r.Item2);
     }
 
     public async Task ShowWhenReady()
     {
-        Debug.Log("WhenReady");
+        for (int i = 0; i < cardsCount; i++)
+        {
+            int index = i;
+            Task.Run(async () =>
+            {
+                var bs = await _imageDownloader.DownloadRandomImageAsync();
+                lock(locker)
+                {
+                    cardsDrawQueue.Enqueue((index, bs));
+                }
+            });
+        }
     }
 
     public async Task ShowOneByOne()
